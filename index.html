@@ -1,1 +1,948 @@
-sddd
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Versatile Knitted Hooded Scarf - Neylna Store</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .animate-fade-in {
+            animation: fadeIn 1s ease-out forwards;
+        }
+        
+        .delay-100 {
+            animation-delay: 0.1s;
+        }
+        
+        .delay-200 {
+            animation-delay: 0.2s;
+        }
+        
+        .delay-300 {
+            animation-delay: 0.3s;
+        }
+        
+        .delay-400 {
+            animation-delay: 0.4s;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 100;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.9);
+            overflow: auto;
+        }
+        
+        .modal-content {
+            margin: auto;
+            display: block;
+            max-width: 90%;
+            max-height: 90%;
+            margin-top: 5vh;
+        }
+        
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+        
+        .close:hover {
+            color: #bbb;
+        }
+        
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            padding: 15px;
+            width: 300px;
+            z-index: 1000;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+        
+        .notification.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        .notification-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #f3e8ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            font-weight: bold;
+            color: #7e22ce;
+        }
+        
+        .notification-close {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: none;
+            border: none;
+            font-size: 12px;
+            cursor: pointer;
+            color: #999;
+        }
+        
+        .ribbon {
+            position: absolute;
+            right: -5px; 
+            top: -5px;
+            z-index: 1;
+            overflow: hidden;
+            width: 75px; 
+            height: 75px; 
+            text-align: right;
+        }
+        
+        .ribbon span {
+            font-size: 10px;
+            color: #fff; 
+            text-transform: uppercase; 
+            text-align: center;
+            font-weight: bold; 
+            line-height: 20px;
+            transform: rotate(45deg);
+            -webkit-transform: rotate(45deg);
+            width: 100px; 
+            display: block;
+            background: #7e22ce;
+            position: absolute;
+            top: 19px; 
+            right: -21px;
+        }
+        
+        .ribbon span::before {
+            content: "";
+            position: absolute; 
+            left: 0px; 
+            top: 100%;
+            z-index: -1;
+            border-left: 3px solid #5b21b6;
+            border-right: 3px solid transparent;
+            border-bottom: 3px solid transparent;
+            border-top: 3px solid #5b21b6;
+        }
+        
+        .ribbon span::after {
+            content: "";
+            position: absolute; 
+            right: 0px; 
+            top: 100%;
+            z-index: -1;
+            border-left: 3px solid transparent;
+            border-right: 3px solid #5b21b6;
+            border-bottom: 3px solid transparent;
+            border-top: 3px solid #5b21b6;
+        }
+        
+        .floating-button {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .color-option {
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .color-option:hover {
+            transform: scale(1.1);
+            border-color: #7e22ce;
+        }
+        
+        .color-option.selected {
+            border-color: #7e22ce;
+            transform: scale(1.1);
+        }
+
+        .color-notification {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            background: white;
+            border-radius: 8px;
+            padding: 8px 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .color-notification.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        .testimonial-card {
+            transition: all 0.3s ease;
+        }
+        
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        .counter {
+            font-variant-numeric: tabular-nums;
+        }
+        
+        .gallery-image {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .gallery-image:hover {
+            transform: scale(1.03);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .price-tag {
+            position: relative;
+            display: inline-block;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #7e22ce 0%, #3b0764 100%);
+            color: white;
+            border-radius: 5px;
+            box-shadow: 0 4px 15px rgba(126, 34, 206, 0.3);
+        }
+        
+        .price-tag::after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 10px 10px 0;
+            border-style: solid;
+            border-color: #3b0764 transparent transparent;
+        }
+        
+        .badge {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(74, 222, 128, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0); }
+        }
+    </style>
+</head>
+<body class="font-sans bg-gray-50 text-gray-800">
+    <!-- Notification Popup -->
+    <div id="notification" class="notification">
+        <button class="notification-close" id="close-notification">&times;</button>
+        <div class="notification-avatar" id="notification-avatar">R</div>
+        <div>
+            <div class="font-semibold text-sm" id="notification-name">Rina dari Jakarta</div>
+            <div class="text-xs text-gray-600">Baru saja memesan <span class="font-medium">Versatile Knitted Hooded Scarf</span></div>
+        </div>
+    </div>
+
+    <!-- Image Modal -->
+    <div id="imageModal" class="modal">
+        <span class="close">&times;</span>
+        <img class="modal-content" id="modalImage">
+    </div>
+
+    <!-- Header -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center">
+                <img src="https://cdn.orderonline.id/uploads/images_8057731750768190275.png" alt="Neylna Store" class="h-10 mr-2">
+                <span class="text-xl font-bold text-purple-800">Neylna Store</span>
+            </div>
+            <div class="flex items-center space-x-4">
+                <div class="hidden md:flex items-center text-sm">
+                    <i class="fas fa-shield-alt text-purple-600 mr-1"></i>
+                    <span>100% Aman</span>
+                </div>
+                <div class="hidden md:flex items-center text-sm">
+                    <i class="fas fa-truck text-purple-600 mr-1"></i>
+                    <span>Gratis Ongkir</span>
+                </div>
+                <div class="hidden md:flex items-center text-sm">
+                    <i class="fas fa-phone-alt text-purple-600 mr-1"></i>
+                    <span>CS 24/7</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-r from-purple-50 to-pink-50 py-12">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-8 md:mb-0 animate-fade-in">
+                    <h1 class="text-4xl md:text-5xl font-bold text-purple-900 leading-tight mb-4">
+                        Versatile Knitted Hooded Scarf
+                    </h1>
+                    <p class="text-lg text-gray-700 mb-6">
+                        Hangat, Stylish, dan Multifungsi - Solusi Sempurna untuk Musim Dingin!
+                    </p>
+                    <div class="flex items-center mb-6">
+                        <div class="flex mr-4">
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                        </div>
+                        <span class="text-gray-600">4.9/5 (1.257 ulasan)</span>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-md p-4 mb-6 inline-block">
+                        <div class="flex items-center">
+                            <div class="bg-green-100 text-green-800 text-xs font-semibold px-2 py-1 rounded-full mr-2">
+                                <i class="fas fa-bolt mr-1"></i> HOT ITEM
+                            </div>
+                            <span class="text-sm text-gray-600"><span id="view-counter" class="font-bold text-purple-800 counter">1,284</span> orang sedang melihat produk ini</span>
+                        </div>
+                    </div>
+                    <div class="mb-6">
+                        <h3 class="font-semibold text-gray-800 mb-2">Pilih Warna:</h3>
+                        <div class="flex flex-wrap gap-3">
+                            <div class="color-option w-10 h-10 rounded-full bg-amber-800 cursor-pointer selected" data-color="Coklat"></div>
+                            <div class="color-option w-10 h-10 rounded-full bg-gray-500 cursor-pointer" data-color="Grey"></div>
+                            <div class="color-option w-10 h-10 rounded-full bg-amber-50 cursor-pointer" data-color="Cream"></div>
+                            <div class="color-option w-10 h-10 rounded-full bg-pink-400 cursor-pointer" data-color="Pink"></div>
+                            <div class="color-option w-10 h-10 rounded-full bg-red-600 cursor-pointer" data-color="Red"></div>
+                            <div class="color-option w-10 h-10 rounded-full bg-purple-900 cursor-pointer" data-color="Dark Purple"></div>
+                            <div class="color-option w-10 h-10 rounded-full bg-purple-600 cursor-pointer" data-color="Purple"></div>
+                        </div>
+                    </div>
+                    <div class="flex items-center mb-6">
+                        <div class="price-tag mr-4">
+                            <div class="text-xs line-through">Rp 319.500</div>
+                            <div class="text-2xl font-bold">Rp 199.000</div>
+                        </div>
+                        <div class="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm font-semibold">
+                            <i class="fas fa-clock mr-1"></i> <span id="countdown">00:30:00</span>
+                        </div>
+                    </div>
+                    <a href="#order-form" class="bg-purple-700 hover:bg-purple-800 text-white font-bold py-3 px-8 rounded-full shadow-lg transition duration-300 inline-block floating-button">
+                        BELI SEKARANG <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+                <div class="md:w-1/2 animate-fade-in delay-100">
+                    <div class="relative">
+                        <img src="https://cdn.hotishop.com/image/c52e564aa377ab4992e20c09593f38e7d454939f-700.jpeg" alt="Versatile Knitted Hooded Scarf" class="rounded-lg shadow-xl w-full h-auto">
+                        <div class="ribbon"><span>HOT ITEM</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Gallery -->
+    <section class="py-12 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center text-purple-900 mb-8">Galeri Produk</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="gallery-image rounded-lg overflow-hidden shadow-md">
+                    <img src="https://cdn.hotishop.com/image/e17a758641a2a092d64b7f0c467d90faf95ecc68-600.jpeg" alt="Versatile Knitted Hooded Scarf" class="w-full h-full object-cover cursor-pointer" onclick="openModal(this)">
+                </div>
+                <div class="gallery-image rounded-lg overflow-hidden shadow-md">
+                    <img src="https://cdn.hotishop.com/image/27efc394335884a2bf01d7ffb801180161277f9f-600.jpeg" alt="Versatile Knitted Hooded Scarf" class="w-full h-full object-cover cursor-pointer" onclick="openModal(this)">
+                </div>
+                <div class="gallery-image rounded-lg overflow-hidden shadow-md">
+                    <img src="https://cdn.hotishop.com/image/09ed5beb7a094eb120f7def3313019fe72e6709e-600.jpeg" alt="Versatile Knitted Hooded Scarf" class="w-full h-full object-cover cursor-pointer" onclick="openModal(this)">
+                </div>
+                <div class="gallery-image rounded-lg overflow-hidden shadow-md">
+                    <img src="https://cdn.hotishop.com/image/53edf787734aae54ea5f3768549b0382a108b1b1-600.jpeg" alt="Versatile Knitted Hooded Scarf" class="w-full h-full object-cover cursor-pointer" onclick="openModal(this)">
+                </div>
+                <div class="gallery-image rounded-lg overflow-hidden shadow-md">
+                    <img src="https://cdn.hotishop.com/image/1255228bb37f42ddedbb531e224afb8d4f54c295-600.jpeg" alt="Versatile Knitted Hooded Scarf" class="w-full h-full object-cover cursor-pointer" onclick="openModal(this)">
+                </div>
+                <div class="gallery-image rounded-lg overflow-hidden shadow-md">
+                    <img src="https://cdn.hotishop.com/image/399625999e3620330ee52c9c5a9946b22e7b4db1-600.jpeg" alt="Versatile Knitted Hooded Scarf" class="w-full h-full object-cover cursor-pointer" onclick="openModal(this)">
+                </div>
+                <div class="gallery-image rounded-lg overflow-hidden shadow-md">
+                    <img src="https://cdn.hotishop.com/image/78f9e26c5d9972fb333a9d5075ec427e8f18ea86.jpeg" alt="Versatile Knitted Hooded Scarf" class="w-full h-full object-cover cursor-pointer" onclick="openModal(this)">
+                </div>
+                <div class="gallery-image rounded-lg overflow-hidden shadow-md">
+                    <img src="https://cdn.hotishop.com/image/a00aa1c48ef33267a0619f9131b6788144581ee7.gif" alt="Versatile Knitted Hooded Scarf" class="w-full h-full object-cover cursor-pointer" onclick="openModal(this)">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problem Solution Section -->
+    <section class="py-12 bg-gradient-to-r from-purple-50 to-pink-50">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-8 md:mb-0 animate-fade-in delay-200">
+                    <img src="https://cdn.hotishop.com/image/27efc394335884a2bf01d7ffb801180161277f9f-600.jpeg" alt="Problem" class="rounded-lg shadow-xl w-full h-auto">
+                </div>
+                <div class="md:w-1/2 md:pl-12 animate-fade-in delay-300">
+                    <h2 class="text-3xl font-bold text-purple-900 mb-6">Masalah yang Sering Dihadapi</h2>
+                    <div class="space-y-4">
+                        <div class="flex items-start">
+                            <div class="bg-purple-100 p-2 rounded-full mr-4">
+                                <i class="fas fa-exclamation-circle text-purple-600"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-lg text-gray-800">Kedinginan saat musim hujan</h3>
+                                <p class="text-gray-600">Tidak nyaman saat harus keluar rumah karena udara dingin menusuk.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="bg-purple-100 p-2 rounded-full mr-4">
+                                <i class="fas fa-exclamation-circle text-purple-600"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-lg text-gray-800">Tampilan kurang stylish</h3>
+                                <p class="text-gray-600">Scarf biasa terlihat membosankan dan tidak fashionable.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="bg-purple-100 p-2 rounded-full mr-4">
+                                <i class="fas fa-exclamation-circle text-purple-600"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-lg text-gray-800">Praktis saat bepergian</h3>
+                                <p class="text-gray-600">Harus membawa banyak aksesoris untuk melindungi dari dingin.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8">
+                        <h2 class="text-3xl font-bold text-purple-900 mb-6">Solusi dengan Versatile Knitted Hooded Scarf</h2>
+                        <div class="space-y-4">
+                            <div class="flex items-start">
+                                <div class="bg-green-100 p-2 rounded-full mr-4">
+                                    <i class="fas fa-check-circle text-green-600"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-semibold text-lg text-gray-800">Hangat dan Nyaman</h3>
+                                    <p class="text-gray-600">Dibuat dari bahan berkualitas tinggi yang memberikan kehangatan optimal.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="bg-green-100 p-2 rounded-full mr-4">
+                                    <i class="fas fa-check-circle text-green-600"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-semibold text-lg text-gray-800">Desain Stylish</h3>
+                                    <p class="text-gray-600">Tampilan modern yang bisa dipadukan dengan berbagai outfit.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="bg-green-100 p-2 rounded-full mr-4">
+                                    <i class="fas fa-check-circle text-green-600"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-semibold text-lg text-gray-800">Multifungsi</h3>
+                                    <p class="text-gray-600">Bisa digunakan sebagai scarf, hood, atau bahkan syal - semua dalam satu produk!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-12 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center text-purple-900 mb-12">Fitur Unggulan</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-purple-50 rounded-xl p-6 shadow-md hover:shadow-lg transition duration-300 animate-fade-in">
+                    <div class="bg-purple-100 w-16 h-16 rounded-full flex items-center justify-center mb-4 mx-auto">
+                        <i class="fas fa-tshirt text-purple-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-center text-purple-800 mb-3">Bahan Berkualitas</h3>
+                    <p class="text-gray-600 text-center">Dibuat dari bahan knitted premium yang lembut, hangat, dan tidak mudah kusut.</p>
+                </div>
+                <div class="bg-purple-50 rounded-xl p-6 shadow-md hover:shadow-lg transition duration-300 animate-fade-in delay-100">
+                    <div class="bg-purple-100 w-16 h-16 rounded-full flex items-center justify-center mb-4 mx-auto">
+                        <i class="fas fa-palette text-purple-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-center text-purple-800 mb-3">7 Pilihan Warna</h3>
+                    <p class="text-gray-600 text-center">Tersedia dalam berbagai warna yang bisa disesuaikan dengan selera dan gaya Anda.</p>
+                </div>
+                <div class="bg-purple-50 rounded-xl p-6 shadow-md hover:shadow-lg transition duration-300 animate-fade-in delay-200">
+                    <div class="bg-purple-100 w-16 h-16 rounded-full flex items-center justify-center mb-4 mx-auto">
+                        <i class="fas fa-user-check text-purple-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-center text-purple-800 mb-3">One Size Fits All</h3>
+                    <p class="text-gray-600 text-center">Desain universal yang cocok untuk berbagai bentuk tubuh dan ukuran.</p>
+                </div>
+                <div class="bg-purple-50 rounded-xl p-6 shadow-md hover:shadow-lg transition duration-300 animate-fade-in">
+                    <div class="bg-purple-100 w-16 h-16 rounded-full flex items-center justify-center mb-4 mx-auto">
+                        <i class="fas fa-wind text-purple-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-center text-purple-800 mb-3">Anti Angin</h3>
+                    <p class="text-gray-600 text-center">Desain yang melindungi Anda dari terpaan angin dingin.</p>
+                </div>
+                <div class="bg-purple-50 rounded-xl p-6 shadow-md hover:shadow-lg transition duration-300 animate-fade-in delay-100">
+                    <div class="bg-purple-100 w-16 h-16 rounded-full flex items-center justify-center mb-4 mx-auto">
+                        <i class="fas fa-baby text-purple-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-center text-purple-800 mb-3">Hipoalergenik</h3>
+                    <p class="text-gray-600 text-center">Aman untuk kulit sensitif dan tidak menyebabkan iritasi.</p>
+                </div>
+                <div class="bg-purple-50 rounded-xl p-6 shadow-md hover:shadow-lg transition duration-300 animate-fade-in delay-200">
+                    <div class="bg-purple-100 w-16 h-16 rounded-full flex items-center justify-center mb-4 mx-auto">
+                        <i class="fas fa-gem text-purple-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-center text-purple-800 mb-3">Eksklusif</h3>
+                    <p class="text-gray-600 text-center">Desain limited edition yang tidak mudah ditemukan di pasaran.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="py-12 bg-gradient-to-r from-purple-50 to-pink-50">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center text-purple-900 mb-12">Apa Kata Mereka?</h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="bg-white rounded-xl p-6 shadow-md testimonial-card animate-fade-in">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-purple-100 w-10 h-10 rounded-full flex items-center justify-center mr-3">
+                            <span class="font-semibold text-purple-800">D</span>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold">Dewi - Ibu Rumah Tangga</h4>
+                            <div class="flex text-yellow-400 text-sm">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 text-sm">"Sangat nyaman dipakai, bahannya lembut dan hangat. Sekarang tidak perlu khawatir kedinginan saat antar jemput anak sekolah."</p>
+                </div>
+                <div class="bg-white rounded-xl p-6 shadow-md testimonial-card animate-fade-in delay-100">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-purple-100 w-10 h-10 rounded-full flex items-center justify-center mr-3">
+                            <span class="font-semibold text-purple-800">R</span>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold">Rina - Mahasiswa</h4>
+                            <div class="flex text-yellow-400 text-sm">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 text-sm">"Desainnya keren banget! Cocok buat gaya kasual kampus. Temen-temen pada nanya beli dimana."</p>
+                </div>
+                <div class="bg-white rounded-xl p-6 shadow-md testimonial-card animate-fade-in delay-200">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-purple-100 w-10 h-10 rounded-full flex items-center justify-center mr-3">
+                            <span class="font-semibold text-purple-800">S</span>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold">Sari - Karyawan</h4>
+                            <div class="flex text-yellow-400 text-sm">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 text-sm">"Praktis banget buat dipakai naik motor ke kantor. Udah gak perlu bawa scarf dan hoodie terpisah."</p>
+                </div>
+                <div class="bg-white rounded-xl p-6 shadow-md testimonial-card animate-fade-in delay-300">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-purple-100 w-10 h-10 rounded-full flex items-center justify-center mr-3">
+                            <span class="font-semibold text-purple-800">A</span>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold">Ani - Pengusaha</h4>
+                            <div class="flex text-yellow-400 text-sm">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 text-sm">"Kualitasnya premium banget untuk harganya. Worth it! Sudah beli 3 untuk hadiah ke saudara."</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Urgency Section -->
+    <section class="py-12 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="bg-gradient-to-r from-purple-600 to-pink-500 rounded-2xl p-8 text-white shadow-xl">
+                <div class="flex flex-col md:flex-row items-center">
+                    <div class="md:w-2/3 mb-6 md:mb-0">
+                        <h2 class="text-2xl md:text-3xl font-bold mb-4">PROMO KHUSUS HARI INI!</h2>
+                        <div class="flex items-center mb-4">
+                            <div class="bg-white text-purple-800 px-3 py-1 rounded-full text-sm font-bold mr-3">
+                                <i class="fas fa-gift mr-1"></i> GRATIS ONGKIR
+                            </div>
+                            <div class="bg-white text-purple-800 px-3 py-1 rounded-full text-sm font-bold">
+                                <i class="fas fa-tag mr-1"></i> DISKON 33%
+                            </div>
+                        </div>
+                        <p class="mb-6">Beli sekarang dan dapatkan Versatile Knitted Hooded Scarf dengan harga spesial plus gratis ongkir ke seluruh Indonesia!</p>
+                        <div class="flex items-center">
+                            <div class="mr-6">
+                                <div class="text-xs">Stok Tersisa:</div>
+                                <div class="text-xl font-bold"><span id="stock-counter" class="counter">37</span>/100 pcs</div>
+                            </div>
+                            <div>
+                                <div class="text-xs">Promo Berakhir Dalam:</div>
+                                <div class="text-xl font-bold"><span id="urgency-countdown">00:30:00</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="md:w-1/3 text-center">
+                        <div class="inline-block mb-4">
+                            <div class="text-xs line-through">Rp 319.500</div>
+                            <div class="text-3xl font-bold">Rp 213.000</div>
+                        </div>
+                        <a href="#order-form" class="bg-white hover:bg-gray-100 text-purple-800 font-bold py-3 px-8 rounded-full shadow-lg transition duration-300 inline-block">
+                            BELI SEKARANG <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Order Form Section -->
+    <section id="order-form" class="py-12 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="max-w-3xl mx-auto bg-white rounded-xl shadow-md overflow-hidden">
+                <div class="md:flex">
+                    <div class="md:w-1/2 p-8">
+                        <h2 class="text-2xl font-bold text-purple-900 mb-2">Versatile Knitted Hooded Scarf</h2>
+                        <div class="flex items-center mb-6">
+                            <div class="flex mr-2">
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star text-yellow-400"></i>
+                            </div>
+                            <span class="text-gray-600 text-sm">1.257 ulasan</span>
+                        </div>
+                        <div class="mb-6">
+                            <div class="text-4xl font-bold text-purple-800">Rp 199.000</div>
+                            <div class="text-sm text-gray-500 line-through">Rp 319.500</div>
+                        </div>
+                        <div class="mb-6">
+                            <h3 class="font-semibold text-gray-800 mb-2">Pilih Warna:</h3>
+                            <div class="flex flex-wrap gap-3">
+                                <div class="color-option w-10 h-10 rounded-full bg-amber-800 cursor-pointer selected" data-color="Coklat"></div>
+                                <div class="color-option w-10 h-10 rounded-full bg-gray-500 cursor-pointer" data-color="Grey"></div>
+                                <div class="color-option w-10 h-10 rounded-full bg-amber-50 cursor-pointer" data-color="Cream"></div>
+                                <div class="color-option w-10 h-10 rounded-full bg-pink-400 cursor-pointer" data-color="Pink"></div>
+                                <div class="color-option w-10 h-10 rounded-full bg-red-600 cursor-pointer" data-color="Red"></div>
+                                <div class="color-option w-10 h-10 rounded-full bg-purple-900 cursor-pointer" data-color="Dark Purple"></div>
+                                <div class="color-option w-10 h-10 rounded-full bg-purple-600 cursor-pointer" data-color="Purple"></div>
+                            </div>
+                        </div>
+                        <div class="bg-green-50 border border-green-200 rounded-lg p-4 mb-6">
+                            <div class="flex items-center">
+                                <div class="bg-green-100 p-2 rounded-full mr-3">
+                                    <i class="fas fa-check-circle text-green-600"></i>
+                                </div>
+                                <div>
+                                    <div class="font-semibold text-green-800">Stok Tersedia</div>
+                                    <div class="text-sm text-green-600"><span id="stock-form-counter" class="counter">37</span> pcs lagi</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-purple-50 border border-purple-200 rounded-lg p-4">
+                            <div class="flex items-center">
+                                <div class="bg-purple-100 p-2 rounded-full mr-3">
+                                    <i class="fas fa-gift text-purple-600"></i>
+                                </div>
+                                <div>
+                                    <div class="font-semibold text-purple-800">Gratis Ongkir</div>
+                                    <div class="text-sm text-purple-600">Khusus pembayaran hari ini</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="md:w-1/2 bg-gray-50 p-8">
+                        <h3 class="text-xl font-bold text-purple-900 mb-6 text-center">Form Pemesanan</h3>
+                        
+                        <!-- OrderOnline Embed Code - v8.0.4 --> <div class="ooef"> <form class="orderonline-embed-form" data-username="vera" data-product-slug="versatile-knitted-hooded-scarf" data-product-id="6870f7f469c7c845530c6ce8" id="oo-embed-form-versatile-knitted-hooded-scarf-8589" data-origin="orderonline"> <div class="ooef-loader"><style>.ooef-loader{visibility: hidden;opacity: 0;position: absolute;left: 0;right: 0;top: 0;bottom: 0;display: flex;justify-content: center;align-items: center;flex-direction: column;animation: ooLoadingIn 10s ease;-webkit-animation: ooLoadingIn 10s ease;animation-fill-mode: forwards;overflow: hidden}@keyframes ooLoadingIn{0%{visibility: hidden;opacity: 0}20%{visibility: visible;opacity: 0}100%{visibility: visible;opacity: 1}}@-webkit-keyframes ooLoadingIn{0%{visibility: hidden;opacity: 0}20%{visibility: visible;opacity: 0}100%{visibility: visible;opacity: 1}}.ooef-loader>div,.ooef-loader>div:after{border-radius: 50%;width: 2.5rem;height: 2.5rem}.ooef-loader>div{font-size: 10px;position: relative;text-indent: -9999em;border: .25rem solid #f5f5f5;border-left: .25rem solid #55c4cf;-webkit-transform: translateZ(0);-ms-transform: translateZ(0);transform: translateZ(0);-webkit-animation: ooLoading 1.1s infinite linear;animation: ooLoading 1.1s infinite linear}.ooef-loader.error>div{border-left: .25rem solid #ff4500;animation-duration: 5s}@-webkit-keyframes ooLoading{0%{-webkit-transform: rotate(0);transform: rotate(0)}100%{-webkit-transform: rotate(360deg);transform: rotate(360deg)}}@keyframes ooLoading{0%{-webkit-transform: rotate(0);transform: rotate(0)}100%{-webkit-transform: rotate(360deg);transform: rotate(360deg)}}</style><div aria-live="polite" role="status"><div>Loading...</div></div></div> </form> </div> <script> if (typeof xLogError != 'function') { var xLogError = function (error) { var req = new XMLHttpRequest(); var payload = JSON.stringify({ url: document.location.href, line: error.line, stack: error.stack }); var params = 'message=' + encodeURIComponent(error.name) + '&payload=' + encodeURIComponent(payload) + '&type=embed&level=error'; req.open('POST', 'https://api.orderonline.id/log', true); req.setRequestHeader('Content-type', 'application/x-www-form-urlencoded'); req.send(params); }; } try { if (typeof xEmbedScript != 'function') { var xEmbedScript = function () { !function(w, d, e, v, id, t, s) { if (d.getElementById(id)) return; t = d.createElement(e);t.async = !0;t.src = v;t.id = id; s = d.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t, s); }(window, document, 'script', 'https://cdn.orderonline.id/js/embed-v2-slim.min.js?v=8.0.4', 'oo-embed-js'); }; } if (typeof xEmbedInit != 'function') { var xEmbedInit = function (w, n) { if (w.ooe) return; n = w.ooe = function() { n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments) }; if (!w._ooe) w._ooe = n; n.push = n;n.loaded = !0;n.version = '8.0.4';n.queue = []; }; } xEmbedInit(window); ooe('setup', 'redirect', 'https://vera.orderonline.id'); ooe('init', '5f1a7807a9bf807d6c63d963', '6870f7f469c7c845530c6ce8', '6870f7f469c7c845530c6ce9', 'oo-embed-form-versatile-knitted-hooded-scarf-8589', {"mode":"page","action":"Klik untuk pemesanan","title":"Form Pemesanan","triggerPixel":true,"triggerGtm":false}); if (!window.jQuery) { !function(w, d, e, v, id, t, s) { if (d.getElementById(id)) return; t = d.createElement(e);t.async = !0;t.src = v;t.id = id; t.addEventListener('load', xEmbedScript); s = d.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t, s); }(window, document, 'script', 'https://cdn.orderonline.id/js/vendor/jquery.min.js', 'oo-embed-jquery'); } else { xEmbedScript(); } } catch (e) { xLogError(e); throw e; } </script> <!-- End OrderOnline Embed Code -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="py-12 bg-white">
+        <div class="container mx-auto px-4 max-w-4xl">
+            <h2 class="text-3xl font-bold text-center text-purple-900 mb-8">Pertanyaan yang Sering Diajukan</h2>
+            <div class="space-y-4">
+                <div class="border rounded-lg overflow-hidden">
+                    <button class="faq-question w-full text-left p-4 bg-purple-50 hover:bg-purple-100 transition duration-300 flex justify-between items-center">
+                        <span class="font-semibold text-purple-800">Apa bahan dari Versatile Knitted Hooded Scarf ini?</span>
+                        <i class="fas fa-chevron-down text-purple-600 transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-answer p-4 hidden">
+                        <p class="text-gray-600">Produk kami dibuat dari bahan knitted premium yang lembut, hangat, dan tidak mudah kusut. Bahan ini juga hypoallergenic sehingga aman untuk kulit sensitif.</p>
+                    </div>
+                </div>
+                <div class="border rounded-lg overflow-hidden">
+                    <button class="faq-question w-full text-left p-4 bg-purple-50 hover:bg-purple-100 transition duration-300 flex justify-between items-center">
+                        <span class="font-semibold text-purple-800">Berapa lama waktu pengiriman?</span>
+                        <i class="fas fa-chevron-down text-purple-600 transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-answer p-4 hidden">
+                        <p class="text-gray-600">Waktu pengiriman bervariasi tergantung lokasi Anda. Umumnya membutuhkan waktu 2-5 hari kerja setelah pembayaran dikonfirmasi. Kami menggunakan jasa pengiriman terpercaya seperti JNE, J&T, dan SiCepat.</p>
+                    </div>
+                </div>
+                <div class="border rounded-lg overflow-hidden">
+                    <button class="faq-question w-full text-left p-4 bg-purple-50 hover:bg-purple-100 transition duration-300 flex justify-between items-center">
+                        <span class="font-semibold text-purple-800">Bagaimana cara perawatan produk ini?</span>
+                        <i class="fas fa-chevron-down text-purple-600 transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-answer p-4 hidden">
+                        <p class="text-gray-600">Untuk perawatan, kami rekomendasikan:
+                            <ul class="list-disc pl-5 mt-2 space-y-1">
+                                <li>Cuci dengan tangan menggunakan air dingin</li>
+                                <li>Gunakan deterjen lembut</li>
+                                <li>Jangan direndam terlalu lama</li>
+                                <li>Keringkan dengan cara diangin-anginkan, jangan dijemur langsung di bawah matahari</li>
+                                <li>Jangan menggunakan pemutih</li>
+                            </ul>
+                        </p>
+                    </div>
+                </div>
+                <div class="border rounded-lg overflow-hidden">
+                    <button class="faq-question w-full text-left p-4 bg-purple-50 hover:bg-purple-100 transition duration-300 flex justify-between items-center">
+                        <span class="font-semibold text-purple-800">Apakah produk ini bisa dikembalikan?</span>
+                        <i class="fas fa-chevron-down text-purple-600 transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-answer p-4 hidden">
+                        <p class="text-gray-600">Kami menerima pengembalian produk dalam kondisi baru, belum dicuci/dipakai, dan dalam kemasan asli dalam waktu 7 hari setelah produk diterima. Silakan hubungi customer service kami untuk proses pengembalian.</p>
+                    </div>
+                </div>
+                <div class="border rounded-lg overflow-hidden">
+                    <button class="faq-question w-full text-left p-4 bg-purple-50 hover:bg-purple-100 transition duration-300 flex justify-between items-center">
+                        <span class="font-semibold text-purple-800">Bagaimana cara mengetahui ukuran yang cocok?</span>
+                        <i class="fas fa-chevron-down text-purple-600 transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-answer p-4 hidden">
+                        <p class="text-gray-600">Produk kami didesain dengan konsep one size fits all yang cocok untuk berbagai bentuk tubuh. Panjang scarf sekitar 180cm dengan hood yang cukup besar untuk menutupi kepala dengan nyaman. Jika Anda membutuhkan informasi lebih detail, silakan hubungi customer service kami.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-purple-900 text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <div class="flex items-center">
+                        <img src="https://cdn.orderonline.id/uploads/images_8057731750768190275.png" alt="Neylna Store" class="h-8 mr-2">
+                        <span class="text-xl font-bold">Neylna Store</span>
+                    </div>
+                    <p class="mt-2 text-purple-200 text-sm">Temukan fashion berkualitas dengan harga terjangkau.</p>
+                </div>
+                <div class="flex space-x-6">
+                    <a href="#" class="hover:text-purple-300 transition duration-300"><i class="fab fa-instagram text-xl"></i></a>
+                    <a href="#" class="hover:text-purple-300 transition duration-300"><i class="fab fa-facebook text-xl"></i></a>
+                    <a href="#" class="hover:text-purple-300 transition duration-300"><i class="fab fa-whatsapp text-xl"></i></a>
+                </div>
+            </div>
+            <div class="border-t border-purple-800 mt-8 pt-8 text-center text-sm text-purple-300">
+                <p>© 2023 Neylna Store. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Color Notification -->
+    <div id="colorNotification" class="color-notification"></div>
+
+    <script>
+        // Countdown Timer
+        function startCountdown() {
+            let countdown = 30 * 60; // 30 minutes in seconds
+            const countdownElement = document.getElementById('countdown');
+            const urgencyCountdown = document.getElementById('urgency-countdown');
+            
+            const timer = setInterval(function() {
+                const minutes = Math.floor(countdown / 60);
+                const seconds = countdown % 60;
+                
+                const display = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                countdownElement.textContent = display;
+                urgencyCountdown.textContent = display;
+                
+                if (countdown <= 0) {
+                    clearInterval(timer);
+                } else {
+                    countdown--;
+                }
+            }, 1000);
+        }
+        
+        // Dynamic Counters
+        function animateCounters() {
+            const viewers = 1284;
+            const stock = 37;
+            const viewerElement = document.getElementById('view-counter');
+            const stockElement = document.getElementById('stock-counter');
+            const stockFormElement = document.getElementById('stock-form-counter');
+            
+            let viewerCount = 0;
+            let stockCount = 100;
+            
+            const viewerInterval = setInterval(() => {
+                viewerCount += 5;
+                if (viewerCount >= viewers) {
+                    viewerCount = viewers;
+                    clearInterval(viewerInterval);
+                }
+                viewerElement.textContent = viewerCount.toLocaleString();
+            }, 50);
+            
+            const stockInterval = setInterval(() => {
+                stockCount -= 1;
+                if (stockCount <= stock) {
+                    stockCount = stock;
+                    clearInterval(stockInterval);
+                }
+                stockElement.textContent = stockCount;
+                stockFormElement.textContent = stockCount;
+            }, 100);
+        }
+        
+        // Notification Popup
+        function showNotification() {
+            const names = ['Rina', 'Dewi', 'Sari', 'Ani', 'Lina', 'Maya', 'Dina', 'Rini'];
+            const cities = ['Jakarta', 'Bandung', 'Surabaya', 'Medan', 'Semarang', 'Yogyakarta', 'Bali', 'Makassar'];
+            const randomName = names[Math.floor(Math.random() * names.length)];
+            const randomCity = cities[Math.floor(Math.random() * cities.length)];
+            
+            document.getElementById('notification-name').textContent = `${randomName} dari ${randomCity}`;
+            document.getElementById('notification-avatar').textContent = randomName.charAt(0);
+            
+            const notification = document.getElementById('notification');
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 3000);
+            
+            // Close notification
+            document.getElementById('close-notification').addEventListener('click', () => {
+                notification.classList.remove('show');
+            });
+            
+            // Auto close after 10 seconds
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 10000);
+        }
+        
+        // Image Modal
+        function openModal(img) {
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImage');
+            modal.style.display = 'block';
+            modalImg.src = img.src;
+        }
+        
+        // Close modal
+        document.getElementsByClassName('close')[0].addEventListener('click', function() {
+            document.getElementById('imageModal').style.display = 'none';
+        });
+        
+        // FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(button => {
+            button.addEventListener('click', () => {
+                const answer = button.nextElementSibling;
+                const icon = button.querySelector('i');
+                
+                answer.classList.toggle('hidden');
+                icon.classList.toggle('rotate-180');
+            });
+        });
+        
+        // Color Selection
+        document.querySelectorAll('.color-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.color-option').forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+                this.classList.add('selected');
+                
+                // Show color notification
+                const colorName = this.getAttribute('data-color');
+                const colorNotification = document.getElementById('colorNotification');
+                colorNotification.textContent = `Warna dipilih: ${colorName}`;
+                colorNotification.style.backgroundColor = window.getComputedStyle(this).backgroundColor;
+                colorNotification.classList.add('show');
+                
+                // Hide after 2 seconds
+                setTimeout(() => {
+                    colorNotification.classList.remove('show');
+                }, 2000);
+            });
+        });
+        
+        // Initialize everything when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            startCountdown();
+            animateCounters();
+            showNotification();
+            
+            // Show another notification every 30-60 seconds
+            setInterval(showNotification, Math.random() * 30000 + 30000);
+        });
+    </script>
+</body>
+</html>
